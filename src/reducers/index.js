@@ -3,6 +3,21 @@ import{
   REMOVE_FROM_CALENDAR
 } from '../actions'
 
+// food reducer
+function food (state = {}, action) {
+  switch (action.type) {
+    case ADD_RECIPE:
+      const {recipe} = action;
+
+      return {
+        ...state,
+        [recipe.label]: recipe
+      }
+      break;
+    default: return state;
+  }
+}
+
 const initialCalendarState = {
   sunday: {
     breakfast: null,
@@ -41,6 +56,7 @@ const initialCalendarState = {
   },
 }
 
+// calendar reducer
 function calendar (state = initialCalendarState, action) {
   const { day, recipe, meal } = action
 
