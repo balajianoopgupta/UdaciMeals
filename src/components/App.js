@@ -11,7 +11,7 @@ import FoodList from './FoodList';
 
 class App extends Component {
 
-  state {
+  state = {
     foodModalOpen:false,
     meal:null,
     day:null,
