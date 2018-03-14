@@ -3,12 +3,19 @@ import {connect} from 'react-redux';
 import {addRecipe, removeFromCalendar} from '../actions';
 import {capitalize} from '../utils/helpers';
 import CalendarIcon from 'react-icons/lib/fa/calendar-plus-o';
+import Modal from 'react-modal';
+import ArrowRight from 'react-icons/lib/fa/arrow-circle-right';
+import Loading from 'react-loading';
+import { fetchRecipes } from '../utils/api';
+import FoodList from './FoodList';
 
 class App extends Component {
 
-  doThing = () => {
-      //this.props.dispatch(addRecipe({}))
-      this.props.selectRecipe({});
+  state {
+    foodModalOpen:false,
+    meal:null,
+    day:null,
+    food,null
   }
 
   render() {
@@ -17,6 +24,7 @@ class App extends Component {
 
     return (
       <div className='container'>
+
         <ul className='meal-types'>
           {mealOrder.map((mealType) => (
             <li key={mealType} className='subheader'>
@@ -24,6 +32,31 @@ class App extends Component {
             </li>
           ))}
         </ul>
+
+        <div className='calendar'>
+          <div className='days'>
+            {calendar.map(({ day }) => <h3 key={day} className='subheader'>{capitalize(day)}</h3>)}
+          </div>
+          <div className='icon-grid'>
+            {calendar.map(({ day, meals }) => (
+              <ul key={day}>
+                {mealOrder.map((meal) => (
+                  <li key={meal} className='meal'>
+                    {meals[meal]
+                      ? <div className='food-item'>
+                          <img src={meals[meal].image} alt={meals[meal].label}/>
+                          <button onClick={() => remove({meal, day})}>Clear</button>
+                        </div>
+                      : <button className='icon-btn'>
+                          <CalendarIcon size={30}/>
+                        </button>}
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
+
       </div>
     );
   }
